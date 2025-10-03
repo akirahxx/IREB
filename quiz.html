@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>IREB Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h1, h2 {
+      color: #004080;
+    }
+    .question {
+      display: none;
+      margin-bottom: 20px;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .correct {
+      color: green;
+    }
+    .wrong {
+      color: red;
+    }
+    .explanation {
+      margin-top: 10px;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+      background: #f1f1f1;
+      font-size: 0.95em;
+    }
+    button {
+      margin-top: 15px;
+      padding: 8px 15px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0066cc;
+    }
+    #start {
+      text-align: center;
+    }
+    #summary {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="start">
+    <h1>IREB Quiz</h1>
+    <p>Teste dein Wissen im Requirements Engineering</p>
+    <button onclick="startQuiz()">Quiz starten</button>
+  </div>
+
+  <!-- Frage 1 -->
+  <div class="question" id="q1">
+    <h2>Frage 1: Was sind die Ziele von Requirements Engineering?</h2>
+    <p><i>Wählen Sie ALLE zutreffenden Antworten.</i></p>
+    <label><input type="checkbox" id="q1a1"> Anforderungen an Systeme zu spezifizieren.</label>
+    <label><input type="checkbox" id="q1a2"> Die Grundlage zu schaffen, dass die implementierten und bereitgestellten Systeme die Wünsche und Bedürfnisse der Stakeholder erfüllen.</label>
+    <label><input type="checkbox" id="q1a3"> Anforderungen an Systeme zu verwalten.</label>
+    <label><input type="checkbox" id="q1a4"> Prüfen, ob die Anforderungen an Systeme so umgesetzt sind, wie sie spezifiziert wurden.</label>
+    <div class="result" id="result1"></div>
+    <div class="explanation" id="explanation1"></div>
+    <button onclick="checkAnswer(1)">Prüfen</button>
+    <button onclick="nextQuestion(2)">Weiter</button>
+  </div>
+
+  <!-- Frage 2 -->
+  <div class="question" id="q2">
+    <h2>Frage 2: Welche Bestandteile sind für eine Versionierungsstrategie mindestens erforderlich?</h2>
+    <p><i>Wählen Sie ALLE zutreffenden Antworten.</i></p>
+    <label><input type="checkbox" id="q2a1"> Eine Versionsnummer zur eindeutigen Identifizierung der Version eines Arbeitsergebnisses.</label>
+    <label><input type="checkbox" id="q2a2"> Eine Änderungshistorie, um zu dokumentieren, was geändert wurde.</label>
+    <label><input type="checkbox" id="q2a3"> Ein Zeitplan, um zukünftige Versionen von Arbeitsergebnissen zu datieren.</label>
+    <label><input type="checkbox" id="q2a4"> Ein Konzept für die Speicherung von Arbeitsergebnissen.</label>
+    <div class="result" id="result2"></div>
+    <div class="explanation" id="explanation2"></div>
+    <button onclick="checkAnswer(2)">Prüfen</button>
+    <button onclick="showSummary()">Beenden</button>
+  </div>
+
+  <!-- Zusammenfassung -->
+  <div id="summary">
+    <h2>Auswertung</h2>
+    <p id="score"></p>
+  </div>
+
+  <script>
+    let score = 0;
+
+    function startQuiz() {
+      document.getElementById("start").style.display = "none";
+      document.getElementById("q1").style.display = "block";
+    }
+
+    function checkAnswer(q) {
+      if (q === 1) {
+        let a1 = document.getElementById("q1a1").checked;
+        let a2 = document.getElementById("q1a2").checked;
+        let a3 = document.getElementById("q1a3").checked;
+        let a4 = document.getElementById("q1a4").checked;
+
+        if (a1 && a2 && a3 && !a4) {
+          document.getElementById("result1").innerHTML = "<span class='correct'>Richtig!</span>";
+          score++;
+        } else {
+          document.getElementById("result1").innerHTML = "<span class='wrong'>Falsch!</span>";
+        }
+        document.getElementById("explanation1").innerHTML = "Requirements Engineering zielt darauf ab, Anforderungen so zu spezifizieren und zu verwalten, so dass die bereitgestellten Systeme die Wünsche und Bedürfnisse der Stakeholder erfüllen. Die Überprüfung der umgesetzten Anforderungen ist nicht Teil von RE.";
+      }
+
+      if (q === 2) {
+        let a1 = document.getElementById("q2a1").checked;
+        let a2 = document.getElementById("q2a2").checked;
+        let a3 = document.getElementById("q2a3").checked;
+        let a4 = document.getElementById("q2a4").checked;
+
+        if (a1 && a2 && !a3 && a4) {
+          document.getElementById("result2").innerHTML = "<span class='correct'>Richtig!</span>";
+          score++;
+        } else {
+          document.getElementById("result2").innerHTML = "<span class='wrong'>Falsch!</span>";
+        }
+        document.getElementById("explanation2").innerHTML = "Eine Versionierungsstrategie besteht mindestens aus einer Versionsnummer zur eindeutigen Identifizierung der Version eines Arbeitsergebnisses. Zudem aus einer Änderungshistorie, um zu definieren, was geändert wurde, sowie einem Konzept für die Speicherung von Arbeitsergebnissen. Hierbei sollten möglichst auch frühere Versionen von Arbeitsergebnissen aufbewahrt werden.";
+      }
+    }
+
+    function nextQuestion(n) {
+      document.getElementById("q1").style.display = "none";
+      document.getElementById("q2").style.display = "block";
+    }
+
+    function showSummary() {
+      document.getElementById("q2").style.display = "none";
+      document.getElementById("summary").style.display = "block";
+      document.getElementById("score").innerHTML = "Du hast " + score + " von 2 Fragen richtig beantwortet.";
+    }
+  </script>
+
+</body>
+</html>
